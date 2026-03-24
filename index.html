@@ -290,10 +290,7 @@ function renderList(data) {
 
     const li = document.createElement("li");
 
-    // 👉 Top 3 donors highlight (correct way)
-    if (index < 3) {
       li.classList.add("top-donor");
-    }
 
     li.innerHTML = `
       <span><b>${index + 1}.</b> ${d.name}</span>
