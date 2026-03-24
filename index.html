@@ -113,9 +113,7 @@ li:hover {
 }
 
 /* Top donors highlight */
-li:nth-child(1),
-li:nth-child(2),
-li:nth-child(3) {
+.top-donor {
   background: linear-gradient(135deg, #fff7e6, #ffe4b5);
   font-weight: 600;
 }
@@ -146,19 +144,6 @@ li:nth-child(3) {
 
     <h1>शेख़ सैयद पठान (अ.मु.) समाज समिति राजस्थान</h1>
     <h2>जकात देने वाले साथी</h2>
-<div class="controls">
-  <select id="sortOption">
-    <option value="">क्रम अनुसार</option>
-    <option value="high">राशि (अधिक → कम)</option>
-    <option value="low">राशि (कम → अधिक)</option>
-  </select>
-
-  <input type="number" id="minAmount" placeholder="न्यूनतम ₹" />
-  <input type="number" id="maxAmount" placeholder="अधिकतम ₹" />
-
-  <button class="btn primary" onclick="applyFilter()">लागू करें</button>
-  <button class="btn secondary" onclick="resetList()">रीसेट</button>
-</div>
     <ul id="donorList">
 
       <li><span>अनवार खान शेख</span><span class="amount">₹5000</span></li>
@@ -304,10 +289,17 @@ function renderList(data) {
     total += d.amount;
 
     const li = document.createElement("li");
+
+    // 👉 Top 3 donors highlight (correct way)
+    if (index < 3) {
+      li.classList.add("top-donor");
+    }
+
     li.innerHTML = `
       <span><b>${index + 1}.</b> ${d.name}</span>
       <span class="amount">₹${d.amount.toLocaleString("en-IN")}</span>
     `;
+
     ul.appendChild(li);
   });
 
