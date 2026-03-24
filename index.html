@@ -8,65 +8,134 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Noto Sans Devanagari', sans-serif;
-      background: #f5f7fa;
-    }
+   body {
+  margin: 0;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  background: linear-gradient(135deg, #eef2f7, #e3e9f0);
+}
 
-    .container {
-      max-width: 850px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
 
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
+.card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
 
-    h1 {
-      text-align: center;
-      font-size: 26px;
-      margin-bottom: 10px;
-    }
+h1 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+}
 
-    h2 {
-      text-align: center;
-      font-size: 18px;
-      color: #666;
-      margin-bottom: 25px;
-    }
+h2 {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+}
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+/* Controls */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
 
-    li {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border-bottom: 1px solid #eee;
-      font-size: 15px;
-    }
+.controls select,
+.controls input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+}
 
-    .amount {
-      font-weight: 600;
-      color: #0a7d4f;
-    }
+.controls select:focus,
+.controls input:focus {
+  border-color: #0a7d4f;
+}
 
-    .total {
-      margin-top: 20px;
-      padding-top: 15px;
-      border-top: 2px solid #ddd;
-      font-size: 18px;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-    }
+/* Buttons */
+.btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #0a7d4f, #13a06f);
+  color: white;
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(10,125,79,0.3);
+}
+
+.btn.secondary {
+  background: #f1f1f1;
+}
+
+.btn.secondary:hover {
+  background: #e2e2e2;
+}
+
+/* List */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.08);
+}
+
+/* Top donors highlight */
+li:nth-child(1),
+li:nth-child(2),
+li:nth-child(3) {
+  background: linear-gradient(135deg, #fff7e6, #ffe4b5);
+  font-weight: 600;
+}
+
+/* Amount */
+.amount {
+  font-weight: 700;
+  color: #0a7d4f;
+}
+
+/* Total */
+.total {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 2px dashed #ccc;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+}
   </style>
 </head>
 
@@ -77,20 +146,18 @@
 
     <h1>शेख़ सैयद पठान (अ.मु.) समाज समिति राजस्थान</h1>
     <h2>जकात देने वाले साथी</h2>
-<div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-  
+<div class="controls">
   <select id="sortOption">
-    <option value="">Sort By</option>
-    <option value="high">Amount High → Low</option>
-    <option value="low">Amount Low → High</option>
+    <option value="">क्रम अनुसार</option>
+    <option value="high">राशि (अधिक → कम)</option>
+    <option value="low">राशि (कम → अधिक)</option>
   </select>
 
-  <input type="number" id="minAmount" placeholder="Min ₹" />
-  <input type="number" id="maxAmount" placeholder="Max ₹" />
+  <input type="number" id="minAmount" placeholder="न्यूनतम ₹" />
+  <input type="number" id="maxAmount" placeholder="अधिकतम ₹" />
 
-  <button onclick="applyFilter()">Apply</button>
-  <button onclick="resetList()">Reset</button>
-
+  <button class="btn primary" onclick="applyFilter()">लागू करें</button>
+  <button class="btn secondary" onclick="resetList()">रीसेट</button>
 </div>
     <ul id="donorList">
 
@@ -238,7 +305,7 @@ function renderList(data) {
 
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${index + 1}. ${d.name}</span>
+      <span><b>${index + 1}.</b> ${d.name}</span>
       <span class="amount">₹${d.amount.toLocaleString("en-IN")}</span>
     `;
     ul.appendChild(li);
